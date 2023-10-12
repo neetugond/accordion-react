@@ -1,6 +1,6 @@
 import { useState } from "react"
 // Child component
-const Section = ({ title, description, isVisible }) => {
+const Section = ({ title, description, isVisible, setIsVisible }) => {
     // const [isVisible, setIsVisible] = useState(false)
     return (
         <div className="section">
@@ -10,9 +10,9 @@ const Section = ({ title, description, isVisible }) => {
 
             </h3>
 
-            {isVisible ? <button><span class="material-symbols-outlined">
+            {isVisible ? <button onClick={() => setIsVisible(false)}><span class="material-symbols-outlined">
                 expand_less
-            </span></button> : <button><span class="material-symbols-outlined">
+            </span></button> : <button onClick={() => setIsVisible(true)}><span class="material-symbols-outlined">
                 expand_more
             </span></button>}
             </div>
@@ -31,9 +31,9 @@ const Section = ({ title, description, isVisible }) => {
 
 // parent component
 const Accordion = () => {
-    // now parent is control hide state
+    // children state control is now parent managing
     const [sectionConfig, setSectionConfig] = useState({
-        showAbout: true,
+        showAbout: false,
         showTeam: false,
         showCareers:false
     })
@@ -42,14 +42,29 @@ const Accordion = () => {
             <h1>Accordion</h1>
             <Section title={'About'} description={'On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish.'}
                 isVisible={sectionConfig.showAbout}
+                setIsVisible={() => setSectionConfig({
+                    showAbout: true,
+                    showTeam: false,
+                    showCareers:false
+                })}
             />
 
             <Section title={'Team'} description={'On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish.'}
-                 isVisible={sectionConfig.showTeam}
+                isVisible={sectionConfig.showTeam}
+                setIsVisible={() => setSectionConfig({
+                    showAbout: false,
+                    showTeam: true,
+                    showCareers:false
+                })}
             />
 
             <Section title={'Careers'} description={'On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish.'}
-                 isVisible={sectionConfig.showCareers}
+                isVisible={sectionConfig.showCareers}
+                setIsVisible={() => setSectionConfig({
+                    showAbout: false,
+                    showTeam: false,
+                    showCareers:true
+                })}
             />
         </div>
     )
